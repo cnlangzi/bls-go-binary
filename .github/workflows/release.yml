@@ -67,10 +67,13 @@ jobs:
           gcc --version
           python3 --version
 
-          [ -d ./bls/lib/windows/amd64 ] && rm -rf ./bls/lib/windows/amd64
+
+          if (Test-Path "bls/lib/windows/amd64") {
+            Remove-Item "bls/lib/windows/amd64" -Recurse -Force
+          }
+       
           make clean
           # make -j # ar gives an error for some reason, so use the followings:
-          mkdir -p ./bls/lib/windows/amd64
 
           make -C ./src/bls -f Makefile.onelib LIB_DIR=./
           cp ./src/bls/libbls384_256.a ./bls/lib/windows/amd64/
