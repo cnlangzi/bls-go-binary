@@ -56,16 +56,14 @@ jobs:
           msystem: MINGW64
           install: base-devel git gcc make python3 # mingw-w64-x86_64-clang
 
-      - name: Checkout branch
+      - name: Build windows
         shell: msys2 {0}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
           git pull && git checkout release && git pull
           git submodule update --init --recursive
 
-      - name: Build windows
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        run: |
           gcc --version
           python3 --version
           make clean
@@ -111,15 +109,13 @@ jobs:
         with:
           ndk-version: r21d
 
-      - name: Checkout branch
-        run: |
-          git pull && git checkout release && git pull
-          git submodule update --init --recursive
-
       - name: Build linux
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
+          git pull && git checkout release && git pull
+          git submodule update --init --recursive
+          
           sudo apt install nasm
           make clean
           make CXX=clang++
@@ -134,6 +130,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
+          git pull && git checkout release && git pull
+          git submodule update --init --recursive
+
           make clean
           make android
 
@@ -155,15 +154,13 @@ jobs:
         with:
           go-version: ^1.20
 
-      - name: Checkout branch
-        run: |
-          git pull && git checkout release && git pull
-          git submodule update --init --recursive
-
       - name: Build darwin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
+          git pull && git checkout release && git pull
+          git submodule update --init --recursive
+
           brew install nasm
           make clean
           make
@@ -178,6 +175,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
+          git pull && git checkout release && git pull
+          git submodule update --init --recursive
+
           make clean
 
           git config user.name github-actions
