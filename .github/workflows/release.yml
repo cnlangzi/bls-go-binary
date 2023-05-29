@@ -31,7 +31,7 @@ jobs:
         run: |
           git pull
           git checkout release 2>/dev/null || git checkout -b release
-          git merge master -q -m "chore(git): merged latest master"
+          git merge origin/master -q -m "chore(git): merged latest master"
           git submodule update --init --recursive
 
           git config user.name github-actions
@@ -203,7 +203,7 @@ jobs:
           [ -d ./bls/lib/ios ] && rm -rf ./bls/lib/ios
           [ -d ./bls/lib/iossimulator ] && rm -rf ./bls/lib/iossimulator
           make clean
-          
+
           mkdir -p ./bls/lib/ios
           mkdir -p ./bls/lib/iossimulator
 
