@@ -37,9 +37,6 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git push --set-upstream origin release
-
-  
-
   build-linux:
     runs-on: ubuntu-latest
     needs: create-branch
@@ -98,7 +95,7 @@ jobs:
           rm -rf ./obj
           git restore ./src/bls
 
-          git add ./bls/lib/ -f && git commit -m "fix(release): added libs for linux/android" && git push
+          git add ./bls/lib/ -f && git commit -m "fix(release): added libs for linux/android"  2>/dev/null && git push
          
   build-macos:
     runs-on: macos-latest
