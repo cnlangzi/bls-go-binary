@@ -61,7 +61,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
-          git pull && git checkout release && git pull
+          git pull && git checkout release
           git submodule update --init --recursive
 
           gcc --version
@@ -120,7 +120,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
-          git pull && git checkout release && git pull
+          git pull && git checkout release
           git submodule update --init --recursive
           
           sudo apt install nasm
@@ -139,7 +139,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
-          git pull && git checkout release && git pull
+          git pull && git checkout release
           git submodule update --init --recursive
 
           [ -d ./bls/lib/android/ ] && rm -rf ./bls/lib/android/
@@ -169,7 +169,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
-          git pull && git checkout release && git pull
+          git pull && git checkout release
           git submodule update --init --recursive
 
           brew install nasm
@@ -189,7 +189,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
-          git pull && git checkout release && git pull
+          git pull && git checkout release
           git submodule update --init --recursive
 
           [ -d ./bls/lib/ios ] && rm -rf ./bls/lib/ios
@@ -218,7 +218,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
-          git pull && git checkout release && git pull
+          git pull && git checkout release
           git submodule update --init --recursive
           git branch -av
           git rev-parse HEAD
