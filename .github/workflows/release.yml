@@ -31,6 +31,7 @@ jobs:
         run: |
           git pull
           git checkout release 2>/dev/null || git checkout -b release
+          git merge master -q -m "chore(git): merged latest master"
           git submodule update --init --recursive
 
           git config user.name github-actions
@@ -61,21 +62,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
-          git checkout . && git pull && git checkout release
+          git pull && git checkout release
           git submodule update --init --recursive
 
           gcc --version
           python3 --version
 
-
+          git checkout .
           if (Test-Path "./bls/lib/windows/amd64") {
             Remove-Item "./bls/lib/windows/amd64" -Recurse -Force
           }
-
-          md "./bls/lib/windows/amd64"
-       
           make clean
           # make -j # ar gives an error for some reason, so use the followings:
+
+          md "./bls/lib/windows/amd64"
 
           make -C ./src/bls -f Makefile.onelib LIB_DIR=./
           cp ./src/bls/libbls384_256.a ./bls/lib/windows/amd64/libbls384_256.a
@@ -120,12 +120,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
-          git checkout . && git pull && git checkout release
+          git pull && git checkout release
           git submodule update --init --recursive
           
           sudo apt install nasm
+
+          git checkout .
           [ -d ./bls/lib/linux/ ] && rm -rf ./bls/lib/linux/
           make clean
+
           mkdir -p ./bls/lib/linux/
 
           make CXX=clang++
@@ -139,11 +142,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
-          git checkout . && git pull && git checkout release
+          git pull && git checkout release
           git submodule update --init --recursive
 
+          git checkout . 
           [ -d ./bls/lib/android/ ] && rm -rf ./bls/lib/android/
           make clean
+
           mkdir -p ./bls/lib/android/
 
           make android
@@ -169,13 +174,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
-          git checkout . && git pull && git checkout release
+          git pull && git checkout release
           git submodule update --init --recursive
 
           brew install nasm
 
+          git checkout . 
           [ -d ./bls/lib/darwin/ ] && rm -rf ./bls/lib/darwin/
           make clean
+
           mkdir -p ./bls/lib/darwin/
 
           make
@@ -189,12 +196,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
-          git checkout . && git pull && git checkout release
+          git pull && git checkout release
           git submodule update --init --recursive
 
+          git checkout . 
           [ -d ./bls/lib/ios ] && rm -rf ./bls/lib/ios
           [ -d ./bls/lib/iossimulator ] && rm -rf ./bls/lib/iossimulator
           make clean
+          
           mkdir -p ./bls/lib/ios
           mkdir -p ./bls/lib/iossimulator
 
