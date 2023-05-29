@@ -30,7 +30,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
-          git checkout release || git checkout -b release
+          git checkout -B release
           git submodule update --init --recursive
 
           git config user.name github-actions
