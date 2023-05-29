@@ -29,11 +29,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
-          (git checkout release 2>/dev/null && git pull) || git checkout -b release
+          git checkout release 2>/dev/null || git checkout -b release
           git submodule update --init --recursive
 
           git config user.name github-actions
           git config user.email github-actions@github.com
+          git pull
           git push --set-upstream origin release
 
   build-windows:
