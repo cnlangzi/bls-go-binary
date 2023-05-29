@@ -91,7 +91,7 @@ jobs:
 
           git add ./bls/lib/linux -f 
           git checkout . 
-          git status . -s | grep "M\|A" && git commit -m "fix(release): added libs for linux" && git push
+          git status . -s | grep "M\|A" | wc -l && git commit -m "fix(release): added libs for linux" && git push
 
       - name: Build android
         env:
@@ -113,7 +113,7 @@ jobs:
 
           git add ./bls/lib/android/ -f 
           git checkout . 
-          git status . -s | grep "M\|A" && git commit -m "fix(release): added libs for android" && git push
+          git status . -s | grep "M\|A" | wc -l && git commit -m "fix(release): added libs for android" && git push
                   
 
   build-macos:
@@ -137,7 +137,6 @@ jobs:
 
           brew install nasm
 
-          git checkout . 
           [ -d ./bls/lib/darwin/ ] && rm -rf ./bls/lib/darwin/
           make clean
 
@@ -148,10 +147,13 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           
-          rm -rf ./obj
-          git restore ./src/bls
+          git add ./bls/lib/darwin/ -f 
 
-          git add ./bls/lib/darwin/ -f && git commit -m "fix(release): added libs for darwin"  && git push
+          changes=$(git diff --staged --numstat | wc -l)
+          if [[ $changes -gt 0 ]]
+          then
+            git commit -m "fix(release): added libs for darwin"  && git push
+          fi
 
       - name: Build ios
         env:
@@ -172,18 +174,13 @@ jobs:
           git config user.email github-actions@github.com
 
           make ios
-
-          rm -rf ./obj
-          git restore ./src/bls
-
-          git add ./bls/lib/ios -f && git commit -m "fix(release): added libs for ios"  && git push
-
           make ios_simulator
 
-          rm -rf ./obj
-          git restore ./src/bls
+          git add ./bls/lib/ios -f
+          git add ./bls/lib/iossimulator -f 
 
-          git add ./bls/lib/iossimulator -f && git commit -m "fix(release): added libs for ios simulator"  && git push
+          git checkout .
+          git status . -s | grep "M\|A" | wc -l git commit -m "fix(release): added libs for ios/ios simulator"  && git push
 
   build-windows:
     runs-on: windows-latest
