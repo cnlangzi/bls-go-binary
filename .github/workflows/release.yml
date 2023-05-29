@@ -127,12 +127,15 @@ jobs:
 
           git checkout .
           [ -d ./bls/lib/linux/ ] && rm -rf ./bls/lib/linux/
+
           make clean
 
           mkdir -p ./bls/lib/linux/
 
+          git status .
           make CXX=clang++
 
+          git status .
           git config user.name github-actions
           git config user.email github-actions@github.com
 
