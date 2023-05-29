@@ -57,7 +57,7 @@ jobs:
           install: base-devel git gcc make python3 # mingw-w64-x86_64-clang
 
       - name: Build windows
-        shell: msys2 {0}
+        # shell: msys2 {0}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         run: |
