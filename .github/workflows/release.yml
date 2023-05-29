@@ -84,6 +84,7 @@ jobs:
           make clean
 
           mkdir -p ./bls/lib/linux/
+          mkdir -p ./bls/lib/android/
 
           make CXX=clang++
           make android
@@ -92,6 +93,7 @@ jobs:
           git config user.email github-actions@github.com
 
           git add ./bls/lib/ -f 
+          git checkout . 
           git status . -s | grep "M\|A" && git commit -m "fix(release): added libs for linux/android" && git push
          
   build-macos:
