@@ -59,7 +59,7 @@ jobs:
       - name: Checkout branch
         shell: msys2 {0}
         run: |
-          git pull && git checkout "$BRANCH_NAME" && git pull
+          git pull && git checkout release && git pull
           git submodule update --init --recursive
 
       - name: Build windows
@@ -114,7 +114,7 @@ jobs:
 
       - name: Checkout branch
         run: |
-          git pull && git checkout "$BRANCH_NAME" && git pull
+          git pull && git checkout release && git pull
           git submodule update --init --recursive
 
       - name: Build linux
@@ -160,7 +160,7 @@ jobs:
 
       - name: Checkout branch
         run: |
-          git pull && git checkout "$BRANCH_NAME" && git pull
+          git pull && git checkout release && git pull
           git submodule update --init --recursive
 
       - name: Build darwin
