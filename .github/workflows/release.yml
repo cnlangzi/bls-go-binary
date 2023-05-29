@@ -82,8 +82,7 @@ jobs:
 
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add ./bls/lib/windows -f
-          git commit -m "fix(release): added libs for windows"  && git push
+          git add ./bls/lib/windows -f && git commit -m "fix(release): added libs for windows"  && git push
 
 
   build-linux:
@@ -134,8 +133,7 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          git add ./bls/lib/linux/ -f
-          git commit -m "fix(release): added libs for linux" && git push
+          git add ./bls/lib/linux/ -f && git commit -m "fix(release): added libs for linux" && git push
          
       - name: Build android
         env:
@@ -153,8 +151,7 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          git add ./bls/lib/android/ -f
-          git commit -m "fix(release): added libs for android"  && git push
+          git add ./bls/lib/android/ -f && git commit -m "fix(release): added libs for android"  && git push
 
   build-macos:
     runs-on: macos-latest
@@ -186,8 +183,7 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          git add ./bls/lib/darwin/ -f
-          git commit -m "fix(release): added libs for darwin"  && git push
+          git add ./bls/lib/darwin/ -f && git commit -m "fix(release): added libs for darwin"  && git push
 
       - name: Build ios
         env:
@@ -206,12 +202,10 @@ jobs:
           git config user.email github-actions@github.com
 
           make ios
-          git add ./bls/lib/ios -f
+          git add ./bls/lib/ios -f && git commit -m "fix(release): added libs for ios"  && git push
 
           make ios_simulator
-          git add ./bls/lib/iossimulator -f
-
-          git commit -m "fix(release): added libs for ios/ios simulator"  && git push
+          git add ./bls/lib/iossimulator -f && git commit -m "fix(release): added libs for ios simulator"  && git push
 
   create-release:
     runs-on: ubuntu-latest
