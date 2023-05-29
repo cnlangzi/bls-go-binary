@@ -79,23 +79,43 @@ jobs:
 
           git checkout .
           [ -d ./bls/lib/linux/ ] && rm -rf ./bls/lib/linux/
-          [ -d ./bls/lib/android/ ] && rm -rf ./bls/lib/android/
 
           make clean
 
           mkdir -p ./bls/lib/linux/
-          mkdir -p ./bls/lib/android/
 
           make CXX=clang++
+
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+          git add ./bls/lib/linux -f 
+          git checkout . 
+          git status . -s | grep "M\|A" && git commit -m "fix(release): added libs for linux" && git push
+
+      - name: Build android
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        run: |
+          git pull && git checkout release
+
+          git checkout .
+          [ -d ./bls/lib/android/ ] && rm -rf ./bls/lib/android/
+
+          make clean
+
+          mkdir -p ./bls/lib/android/
+
           make android
 
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          git add ./bls/lib/ -f 
+          git add ./bls/lib/android/ -f 
           git checkout . 
-          git status . -s | grep "M\|A" && git commit -m "fix(release): added libs for linux/android" && git push
-         
+          git status . -s | grep "M\|A" && git commit -m "fix(release): added libs for android" && git push
+                  
+
   build-macos:
     runs-on: macos-latest
     needs: build-linux
