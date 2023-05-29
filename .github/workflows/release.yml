@@ -15,8 +15,7 @@ on:
       version:
         description: 'release/tag: vX.Y.Z'
         required: true
-env:
-  BRANCH_NAME: "release-${{ github.event.inputs.version }}"
+
 
 jobs:
   create-branch:
@@ -35,7 +34,7 @@ jobs:
 
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git push --set-upstream origin "$BRANCH_NAME"
+          git push --set-upstream origin release
 
   build-windows:
     runs-on: windows-latest
