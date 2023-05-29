@@ -66,9 +66,12 @@ jobs:
 
           gcc --version
           python3 --version
+
+          [ -d ./bls/lib/windows/amd64 ] && rm -rf ./bls/lib/windows/amd64
           make clean
           # make -j # ar gives an error for some reason, so use the followings:
           mkdir -p ./bls/lib/windows/amd64
+
           make -C ./src/bls -f Makefile.onelib LIB_DIR=./
           cp ./src/bls/libbls384_256.a ./bls/lib/windows/amd64/
 
@@ -117,7 +120,10 @@ jobs:
           git submodule update --init --recursive
           
           sudo apt install nasm
+          [ -d ./bls/lib/linux/ ] && rm -rf ./bls/lib/linux/
           make clean
+          mkdir -p ./bls/lib/linux/
+
           make CXX=clang++
 
           git config user.name github-actions
@@ -133,7 +139,10 @@ jobs:
           git pull && git checkout release && git pull
           git submodule update --init --recursive
 
+          [ -d ./bls/lib/android/ ] && rm -rf ./bls/lib/android/
           make clean
+          mkdir -p ./bls/lib/android/
+
           make android
 
           git config user.name github-actions
@@ -162,7 +171,11 @@ jobs:
           git submodule update --init --recursive
 
           brew install nasm
+
+          [ -d ./bls/lib/darwin/ ] && rm -rf ./bls/lib/darwin/
           make clean
+          mkdir -p ./bls/lib/darwin/
+
           make
 
           git config user.name github-actions
@@ -178,7 +191,11 @@ jobs:
           git pull && git checkout release && git pull
           git submodule update --init --recursive
 
+          [ -d ./bls/lib/ios ] && rm -rf ./bls/lib/ios
+          [ -d ./bls/lib/iossimulator ] && rm -rf ./bls/lib/iossimulator
           make clean
+          mkdir -p ./bls/lib/ios
+          mkdir -p ./bls/lib/iossimulator
 
           git config user.name github-actions
           git config user.email github-actions@github.com
