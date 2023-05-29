@@ -68,9 +68,11 @@ jobs:
           python3 --version
 
 
-          if (Test-Path "bls/lib/windows/amd64") {
-            Remove-Item "bls/lib/windows/amd64" -Recurse -Force
+          if (Test-Path "./bls/lib/windows/amd64") {
+            Remove-Item "./bls/lib/windows/amd64" -Recurse -Force
           }
+
+          md "./bls/lib/windows/amd64"
        
           make clean
           # make -j # ar gives an error for some reason, so use the followings:
