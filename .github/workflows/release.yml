@@ -88,14 +88,11 @@ jobs:
           make CXX=clang++
           make android
 
-          git status .
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          rm -rf ./obj
-          git restore ./src/bls
-
-          git add ./bls/lib/ -f && git commit -m "fix(release): added libs for linux/android"  2>/dev/null && git push
+          git add ./bls/lib/ -f 
+          git status . -s | grep "M\|A" && git commit -m "fix(release): added libs for linux/android" && git push
          
   build-macos:
     runs-on: macos-latest
