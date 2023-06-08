@@ -31,6 +31,7 @@ jobs:
         run: |
           git pull
           git checkout release 2>/dev/null || git checkout -b release
+          rm -rf ./src/bls && mkdir -p ./src/bls
           git merge origin/master -q -m "chore(git): merged latest master"
           git submodule update --init --recursive
 
@@ -74,7 +75,8 @@ jobs:
         run: |
           git pull && git checkout release
           git submodule update --init --recursive
-          
+
+          sudo apt update
           sudo apt install nasm
 
           [ -d ./bls/lib/linux/ ] && rm -rf ./bls/lib/linux/
@@ -83,16 +85,20 @@ jobs:
           mkdir -p ./bls/lib/linux/
 
           make CXX=clang++
+          make clean
+          # build linux/arm64
+          sudo apt-get install gcc-multilib
+          make -C src/bls -f Makefile.onelib build_aarch64 CXX=clang++ -j OUT_DIR=../..
 
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          git add ./bls/lib/linux -f 
+          git add ./bls/lib/linux -f
 
           changes=$(git diff --staged --numstat | wc -l)
           if [[ $changes -gt 0 ]]
           then
-            git commit -m "fix(release): added libs for linux" 
+            git commit -m "fix(release): added libs for linux(amd64/arm64)"
             git push
           fi
 
@@ -112,12 +118,12 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          git add ./bls/lib/android/ -f 
- 
+          git add ./bls/lib/android/ -f
+
           changes=$(git diff --staged --numstat | wc -l)
           if [[ $changes -gt 0 ]]
           then
-            git commit -m "fix(release): added libs for android" 
+            git commit -m "fix(release): added libs for android"
             git push
           fi
   build-macos:
@@ -146,12 +152,14 @@ jobs:
 
           mkdir -p ./bls/lib/darwin/
 
-          make
+          make ARCH=x86_64
+          make clean
+          make ARCH=arm64
 
           git config user.name github-actions
           git config user.email github-actions@github.com
-          
-          git add ./bls/lib/darwin/ -f 
+
+          git add ./bls/lib/darwin/ -f
 
           changes=$(git diff --staged --numstat | wc -l)
           if [[ $changes -gt 0 ]]
@@ -181,7 +189,7 @@ jobs:
           make ios_simulator
 
           git add ./bls/lib/ios -f
-          git add ./bls/lib/iossimulator -f 
+          git add ./bls/lib/iossimulator -f
 
           changes=$(git diff --staged --numstat | wc -l)
           if [[ $changes -gt 0 ]]
